@@ -76,19 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="keywords" content="gmc 300 geiger muller counter online log viewer" />
     <meta name="description" content="GMC 300 Geiger Muller Counter Online Log Viewer" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <style>
-        body {
-            font-family: Tahoma, Verdana, Arial;
-            font-size: 12px;
-        }
-        .error {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="lib/style.css" />
 </head>
     <body>
-        <h2>GMC-300 Geiger Muller Counter Online Log Viewer</h2>
-        <h4>Upload data log:</h4>
+        <h1>GMC-300 Geiger Muller Counter Online Log Viewer</h1>
+        <h3>Upload data log:</h3>
         <?php if ($error): ?>
         <p class="error"><?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>

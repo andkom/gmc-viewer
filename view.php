@@ -45,12 +45,6 @@ function parse_csv($file) {
 
                 if ($time) {
                     switch ($type) {
-                        /*case 'Every Second':
-                            for ($i = 3, $s = 0; $i < count($columns) && $s < 60; $i++, $s++) {
-                                $data[$time + $s] = (int) $columns[$i];
-                            }
-                            break;
-                        */
                         case 'Every Second':
                         case 'Every Minute':
                             $data[$time] = (int) $cpm;
@@ -102,16 +96,12 @@ function parse_flags($file) {
         <script src="lib/jquery.js" type="text/javascript"></script>
         <script src="lib/highstock.js" type="text/javascript"></script>
         <script src="lib/gray.js" type="text/javascript"></script>
-        <style>
-            body, html {
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="lib/style.css" />
     </head>
     <body>
-        <div id="chart" style="height: 100%;"></div>
+        <h2>GMC-300 Geiger Muller Counter Online Log Viewer</h2>
+        <p><a href="/">Upload another file</a> | <a href="">Share link</a></p>
+        <div id="chart" style="height: 600px;"></div>
         <script type="text/javascript">
             var cpm = [], usv = [], umr = [];
 
@@ -127,7 +117,35 @@ function parse_flags($file) {
                 <?php endforeach; ?>
             ];
 
-            var colors = Highcharts.getOptions().colors;
+            var series = [
+                {
+                    id: 'cpm',
+                    type: 'line',
+                    name: 'CPM',
+                    data: cpm
+                },
+                {
+                    type: 'line',
+                    name: 'µSv/h',
+                    data: usv
+                },
+                {
+                    type: 'line',
+                    name: 'mR/h',
+                    visible: false,
+                    data: umr
+                }
+            ];
+
+            if (flags.length) {
+                series.push({
+                    type: 'flags',
+                    name: 'Flags',
+                    shape: 'squarepin',
+                    onSeries: 'cpm',
+                    data: flags
+                });
+            }
 
             var chart = new Highcharts.StockChart({
                 chart: {
@@ -180,11 +198,6 @@ function parse_flags($file) {
                             text: '1w'
                         },
                         {
-                            type: 'week',
-                            count: 2,
-                            text: '2w'
-                        },
-                        {
                             type: 'month',
                             count: 1,
                             text: '1m'
@@ -197,12 +210,12 @@ function parse_flags($file) {
                             count: 6,
                             text: '6m'
                         }, {
-                            type: 'ytd',
-                            text: 'YTD'
-                        }, {
                             type: 'year',
                             count: 1,
                             text: '1y'
+                        }, {
+                            type: 'ytd',
+                            text: 'YTD'
                         }, {
                             type: 'all',
                             text: 'All'
@@ -227,32 +240,7 @@ function parse_flags($file) {
                     }
                 },
 
-                series: [
-                    {
-                        id: 'cpm',
-                        type: 'line',
-                        name: 'CPM',
-                        data: cpm
-                    },
-                    {
-                        type: 'line',
-                        name: 'µSv/h',
-                        data: usv
-                    },
-                    {
-                        type: 'line',
-                        name: 'mR/h',
-                        visible: false,
-                        data: umr
-                    },
-                    {
-                        type: 'flags',
-                        name: 'Flags',
-                        shape: 'squarepin',
-                        onSeries: 'cpm',
-                        data: flags
-                    }
-                ]
+                series: series
             });
         </script>
     </body>
