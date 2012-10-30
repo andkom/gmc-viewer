@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td>Data file:</td>
                     <td><input type="file" name="data" /></td>
                 </tr>
-                <tr>
+                <tr style="display: none;">
                     <td>Flags file:</td>
                     <td><input type="file" name="flags" /> (optional)</td>
                 </tr>

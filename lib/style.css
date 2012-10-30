@@ -5,3 +5,7 @@ body {
 .error {
     color: red;
 }
+
+.footer {
+    text-align: center;
+}
