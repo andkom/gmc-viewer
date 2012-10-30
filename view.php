@@ -1,0 +1,261 @@
+<?php
+
+if (empty($_REQUEST['n'])) {
+    die('Bad request.');
+}
+
+$name = preg_replace('/[^A-Za-z0-9]+/', '', $_REQUEST['n']);
+
+$data_file = './data/' . $name . '/data.csv';
+$flags_file = './data/' . $name . '/flags.csv';
+
+if (!file_exists($data_file) || !is_readable($data_file)) {
+    die('File not found.');
+}
+
+date_default_timezone_set('UTC');
+
+$data = parse_csv($data_file);
+
+if (!$data) {
+    die('No data.');
+}
+
+if (file_exists($flags_file) && is_readable($flags_file)) {
+    $flags = parse_flags($flags_file);
+} else {
+    $flags = array();
+}
+
+function parse_csv($file) {
+    $data = array();
+    $lines = file($file);
+
+    foreach ($lines as $line) {
+        $line = trim($line);
+        $line = trim($line, ',');
+
+        if ($line) {
+            $columns = explode(',', $line);
+
+            if (count($columns) >= 3) {
+                list($date, $type, $cpm) = $columns;
+                $time = strtotime($date);
+                $cpm = $cpm > 0 ? $cpm : 0;
+
+                if ($time) {
+                    switch ($type) {
+                        /*case 'Every Second':
+                            for ($i = 3, $s = 0; $i < count($columns) && $s < 60; $i++, $s++) {
+                                $data[$time + $s] = (int) $columns[$i];
+                            }
+                            break;
+                        */
+                        case 'Every Second':
+                        case 'Every Minute':
+                            $data[$time] = (int) $cpm;
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    ksort($data);
+
+    return $data;
+}
+
+function parse_flags($file) {
+    $flags = array();
+    $lines = file($file);
+
+    foreach ($lines as $line) {
+        $line = trim($line);
+        $line = trim($line, ',');
+
+        if ($line) {
+            $columns = explode(',', $line);
+
+            if (count($columns) >= 2) {
+                list($date, $text) = $columns;
+                $time = strtotime($date);
+
+                if ($time && $text) {
+                    $flags[$time] = $text;
+                }
+            }
+        }
+    }
+
+    ksort($flags);
+
+    return $flags;
+}
+
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>View Log - GMC-300 Geiger Muller Counter Online Log Viewer</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script src="lib/jquery.js" type="text/javascript"></script>
+        <script src="lib/highstock.js" type="text/javascript"></script>
+        <script src="lib/gray.js" type="text/javascript"></script>
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="chart" style="height: 100%;"></div>
+        <script type="text/javascript">
+            var cpm = [], usv = [], umr = [];
+
+            <?php foreach ($data as $time => $cpm): ?>
+            cpm.push([<?php echo $time * 1000; ?>, <?php echo $cpm; ?>]);
+            usv.push([<?php echo $time * 1000; ?>, <?php echo round($cpm / 175.43, 2); ?>]);
+            umr.push([<?php echo $time * 1000; ?>, <?php echo round($cpm / 1754.3, 3); ?>]);
+            <?php endforeach; ?>
+
+            var flags = [
+                <?php foreach ($flags as $time => $text): ?>
+                {x: <?php echo $time * 1000; ?>, title: '<?php echo stripslashes($text); ?>', text: '<?php echo stripslashes($text); ?>'},
+                <?php endforeach; ?>
+            ];
+
+            var colors = Highcharts.getOptions().colors;
+
+            var chart = new Highcharts.StockChart({
+                chart: {
+                    renderTo: 'chart'
+                },
+
+                title: {
+                    text: 'GMC-300 Geiger Muller Counter Online Log Viewer'
+                },
+
+                credits: {
+                    enabled: false
+                },
+
+                rangeSelector: {
+                    buttons: [
+                        {
+                            type: 'hour',
+                            count: 1,
+                            text: '1h'
+                        },
+                        {
+                            type: 'hour',
+                            count: 3,
+                            text: '3h'
+                        },
+                        {
+                            type: 'hour',
+                            count: 6,
+                            text: '6h'
+                        },
+                        {
+                            type: 'hour',
+                            count: 12,
+                            text: '12h'
+                        },
+                        {
+                            type: 'day',
+                            count: 1,
+                            text: '1d'
+                        },
+                        {
+                            type: 'day',
+                            count: 3,
+                            text: '3d'
+                        },
+                        {
+                            type: 'week',
+                            count: 1,
+                            text: '1w'
+                        },
+                        {
+                            type: 'week',
+                            count: 2,
+                            text: '2w'
+                        },
+                        {
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        }, {
+                            type: 'month',
+                            count: 3,
+                            text: '3m'
+                        }, {
+                            type: 'month',
+                            count: 6,
+                            text: '6m'
+                        }, {
+                            type: 'ytd',
+                            text: 'YTD'
+                        }, {
+                            type: 'year',
+                            count: 1,
+                            text: '1y'
+                        }, {
+                            type: 'all',
+                            text: 'All'
+                        }
+                    ]
+                },
+
+                legend: {
+                    enabled: true,
+                    floating: true,
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    y: 80
+                },
+
+                yAxis: {
+                    min: 0,
+                    showFirstLabel: false,
+                    title: {
+                        text: 'Counts Per Minute'
+                    }
+                },
+
+                series: [
+                    {
+                        id: 'cpm',
+                        type: 'line',
+                        name: 'CPM',
+                        data: cpm
+                    },
+                    {
+                        type: 'line',
+                        name: 'µSv/h',
+                        data: usv
+                    },
+                    {
+                        type: 'line',
+                        name: 'mR/h',
+                        visible: false,
+                        data: umr
+                    },
+                    {
+                        type: 'flags',
+                        name: 'Flags',
+                        shape: 'squarepin',
+                        onSeries: 'cpm',
+                        data: flags
+                    }
+                ]
+            });
+        </script>
+    </body>
+</html>
+
+
