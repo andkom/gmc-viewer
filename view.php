@@ -95,6 +95,7 @@ function parse_flags($file) {
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <script src="lib/jquery.js" type="text/javascript"></script>
         <script src="lib/highstock.js" type="text/javascript"></script>
+        <script src="lib/exporting.js" type="text/javascript"></script>
         <script src="lib/gray.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="lib/style.css" />
     </head>
