@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         redirect('view.php?n=' . $name);
     } catch (Exception $exception) {
-        @rmdir($name);
+        @rmdir($dir);
         $error = $exception->getMessage();
     }
 }
