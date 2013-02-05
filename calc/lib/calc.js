@@ -1,5 +1,30 @@
 $(function() {
-    $('#form_factor').submit(function(event) {
+    var tubes = window.tubes || {};
+    var select_tube = $('#tube');
+    var form_factor = $('#form_factor');
+
+    $.each(tubes, function(key, tube) {
+        $('<option/>', {
+            val: key,
+            text: tube.name
+        }).appendTo(select_tube);
+    });
+
+    select_tube.change(function() {
+        var key = $(this).val();
+                          console.log(key);
+        if (key) {
+            $.each(tubes[key].settings, function(k, v) {
+                $('#' + k).val(v);
+            });
+
+            form_factor.submit();
+        } else {
+            form_factor[0].reset();
+        }
+    });
+
+    form_factor.submit(function(event) {
         event.preventDefault();
 
         var usvh = 0;

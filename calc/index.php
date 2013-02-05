@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>GM (Geiger-Muller) Tube Conversion Factor Calculator</title>
-    <meta name="keywords" content="gm tube geiger muller tube conversion rate factor calculator" />
-    <meta name="description" content="GM (Geiger Muller) tube conversion factor (rate, ratio) calculator" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="lib/style.css" />
-    <script type="text/javascript" src="lib/jquery.js"></script>
-    <script type="text/javascript" src="lib/calc.js"></script>
-</head>
+    <head>
+        <title>GM (Geiger-Muller) Tube Conversion Factor Calculator</title>
+        <meta name="keywords" content="gm tube geiger muller tube conversion rate factor calculator" />
+        <meta name="description" content="GM (Geiger Muller) tube conversion factor (rate, ratio) calculator" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="lib/style.css" />
+        <script type="text/javascript" src="lib/jquery.js"></script>
+        <script type="text/javascript" src="lib/tubes.js"></script>
+        <script type="text/javascript" src="lib/calc.js"></script>
+    </head>
     <body>
         <h1>GM Tube Conversion Factor Calculator</h1>
         <form id="form_factor">
@@ -34,6 +35,7 @@
                     <option value="hour">Hour</option>
                 </select>
             </p>
+            <p>or <select id="tube"><option value="">Select Tube</option></select></p>
             <p>Result:</p>
             <p><input id="result" type="text" value="?" readonly="readonly" style="width: 500px;" /></p>
             <p>= <input id="result_urs" type="text" value="?" class="number" readonly="readonly" /> &micro;R/s</p>
