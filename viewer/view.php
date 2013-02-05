@@ -39,16 +39,24 @@ function parse_csv($file) {
             $columns = explode(',', $line);
 
             if (count($columns) >= 3) {
-                list($date, $type, $cpm) = $columns;
+                list($date, $col1, $col2) = $columns;
                 $time = strtotime($date);
-                $cpm = $cpm > 0 ? $cpm : 0;
 
                 if ($time) {
-                    switch ($type) {
-                        case 'Every Second':
-                        case 'Every Minute':
-                            $data[$time] = (int) $cpm;
-                            break;
+                    $cpm = 0;
+
+                    if (in_array($col1, array('Every Second', 'Every Minute'))) {
+                        $cpm = (int) $col2;
+                    } else if (is_numeric($col1)) {
+                        if (strstr($col1, '.') !== false) {
+                            $cpm = (int) $col2;
+                        } else {
+                            $cpm = (int) $col1;
+                        }
+                    }
+
+                    if ($cpm >= 0 && $cpm != 15300) {
+                        $data[$time] = $cpm;
                     }
                 }
             }
