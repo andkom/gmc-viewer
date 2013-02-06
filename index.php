@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GM (Geiger-Muller) Tubes Database</title>
+    <title>GM (Geiger-Muller) Tube Database</title>
     <meta name="keywords" content="gm tube geiger muller database info datasheet radiation radioactive" />
     <meta name="description" content="GM (Geiger Muller) database. Datasheets and information." />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
