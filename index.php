@@ -16,6 +16,7 @@
         <ul>
             <li><a href="/viewer/">GMC-300 Online Log Viewer</a></li>
             <li><a href="/calc/">GM Tube Conversion Factor Calculator</a></li>
+            <li><a href="/viewer/view.php?n=chernobyl">Radiation levels during two-day trip to Chernobyl Exclusion Zone</a></li>
         </ul>
     </body>
 </html>
