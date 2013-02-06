@@ -45,14 +45,15 @@
             <p>= <input id="result_cps" type="text" value="?" class="number" readonly="readonly" /> CPS</p>
             <p>= <input id="result_cpm" type="text" value="?" class="number" readonly="readonly" /> CPM</p>
             <p>= <input id="result_cpm_to_urh" type="text" value="?" class="number" readonly="readonly" /> CPM &rarr; &micro;R/h ratio</p>
-            <p>= <input id="result_cpm_to_usvh" type="text" value="?" class="number" readonly="readonly" /> <strong>CPM &rarr; &micro;Sv/h ratio</strong> <small>Used by <a href="https://sites.google.com/site/diygeigercounter/">DIYGeigerCounter</a></small></small></p>
+            <p>= <input id="result_cpm_to_usvh" type="text" value="?" class="number" readonly="readonly" /> <strong>CPM &rarr; &micro;Sv/h ratio</strong> <small>Using by <a href="https://sites.google.com/site/diygeigercounter/">DIYGeigerCounter</a></small></small></p>
             <p>= <input id="result_cpm_to_urs" type="text" value="?" class="number" readonly="readonly" /> CPM &rarr; &micro;R/s ratio</p>
             <p>= <input id="result_cpm_to_usvs" type="text" value="?" class="number" readonly="readonly" /> CPM &rarr; &micro;Sv/s ratio</p>
             <p>= <input id="result_cps_to_urh" type="text" value="?" class="number" readonly="readonly" /> CPS &rarr; &micro;R/h ratio</p>
             <p>= <input id="result_cps_to_usvh" type="text" value="?" class="number" readonly="readonly" /> CPS &rarr; &micro;Sv/h ratio</p>
             <p>= <input id="result_cps_to_urs" type="text" value="?" class="number" readonly="readonly" /> CPS &rarr; &micro;R/s ratio</p>
             <p>= <input id="result_cps_to_usvs" type="text" value="?" class="number" readonly="readonly" /> CPS &rarr; &micro;Sv/s ratio</p>
-            <p>= <input id="result_cps_to_10usv" type="text" value="?" class="number" readonly="readonly" /> <strong>CPS &rarr; 10 &micro;Sv/h (1 mR/h) ratio</strong> <small>Used by <a href="https://sites.google.com/site/geigerbot/">Geiger Bot</a></small></p>
+            <p>= <input id="result_cps_to_10usv" type="text" value="?" class="number" readonly="readonly" /> <strong>CPS &rarr; 10 &micro;Sv/h (1 mR/h) ratio</strong> <small>Using by <a href="https://sites.google.com/site/geigerbot/">Geiger Bot</a></small></p>
+            <p>= <input id="result_cps_per_urs" type="text" value="?" class="number" readonly="readonly" /> <strong>CPS/uR/s</strong> <small>Using in most soviet tube datasheets</small></p>
             <p><input type="submit" value="Calculate" /><input type="reset" value="Reset" /></p>
         </form>
     </body>

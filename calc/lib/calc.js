@@ -54,6 +54,7 @@ $(function() {
         var result_cps_to_urs_input = $('#result_cps_to_urs').val('?');
         var result_cps_to_usvs_input = $('#result_cps_to_usvs').val('?');
         var result_cps_to_10usv_input = $('#result_cps_to_10usv').val('?');
+        var result_cps_per_urs_input = $('#result_cps_per_urs').val('?');
 
         var dose = parseFloat(dose_input.val());
         var dose_unit = dose_unit_input.val();
@@ -164,6 +165,7 @@ $(function() {
             result_cps_to_usvs_input.val((cps / usvs).toFixed(5));
 
             result_cps_to_10usv_input.val((cps * 10. / usvh).toFixed(5));
+            result_cps_per_urs_input.val((cps / urs).toFixed(5));
         } catch (err) {
             result_input.css('color', 'red');
             result_input.val(err);
