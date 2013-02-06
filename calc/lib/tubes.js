@@ -11,6 +11,18 @@ var tubes = {
             count_period_unit: 'second'
         }
     },
+    sbt9: {
+        name: 'SBT-9 (СБТ-9) [Cs137]',
+        settings: {
+            dose: 5,
+            dose_unit: 'ur',
+            dose_period: 1,
+            dose_period_unit: 'second',
+            count: 225,
+            count_period: 1,
+            count_period_unit: 'second'
+        }
+    },
     sbt10a: {
         name: 'SBT-10A (СБТ-10А) [Cs137]',
         settings: {
