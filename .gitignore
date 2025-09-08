@@ -1,4 +1,4 @@
 .idea
 .DS_Store
-/viewer/data/*
-!/viewer/data/chernobyl
+/data/*
+!/data/chernobyl

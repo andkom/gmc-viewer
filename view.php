@@ -109,7 +109,7 @@ function parse_flags($file) {
     </head>
     <body>
         <h2>GMC-300 Geiger Muller Counter Online Log Viewer</h2>
-        <p><a href="/viewer/">Upload another file</a> | <a href="">Share link</a></p>
+        <p><a href="/viewer">Upload another file</a> | <a href="">Share link</a></p>
         <div id="chart" style="height: 600px;"></div>
         <div class="footer">Version 1.0</div>
         <script type="text/javascript">

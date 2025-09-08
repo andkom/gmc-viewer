@@ -2,8 +2,10 @@ body {
     font-family: Tahoma, Verdana, Arial;
     font-size: 12px;
 }
+.error {
+    color: red;
+}
 
-.number {
-    width: 100px;
-    text-align: right;
+.footer {
+    text-align: center;
 }

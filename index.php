@@ -1,27 +1,110 @@
+<?php
+
+function get_random_string($length = 6) {
+    $str = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
+    return substr($str, 0, $length);
+}
+
+function upload_file($key, $path, $check_signature = false, $max_size = 1048576) {
+    if ($_FILES[$key]['error'] != UPLOAD_ERR_OK) {
+        throw new Exception('Unable to upload file. Please try again later.');
+    }
+
+    if ($_FILES[$key]['size'] > $max_size) {
+        throw new Exception('File size too large.');
+
+    }
+
+    if ($check_signature) {
+        $data = file_get_contents($_FILES[$key]['tmp_name']);
+
+        if (!$data) {
+            throw new Exception('Unable to read file.');
+        }
+
+        if (stristr($data, 'GQ Geiger Muller Counter Data Logger') === false) {
+            throw new Exception('Bad file type or format.');
+        }
+    }
+
+    if (!move_uploaded_file($_FILES[$key]['tmp_name'], $path)) {
+        throw new Exception('Unable to write file. Please try again later.');
+    }
+}
+
+function redirect($url) {
+    header('Location: ' . $url);
+    exit();
+}
+
+$error = false;
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = get_random_string();
+    $dir = './data/' . $name;
+    $data_file = $dir . '/data.csv';
+    $flags_file = $dir . '/flags.csv';
+
+    try {
+        if (!isset($_FILES['data']) || $_FILES['data']['error'] == UPLOAD_ERR_NO_FILE) {
+            throw new Exception('Please select data file.');
+        }
+
+        if (!mkdir($dir)) {
+            throw new Exception('Unable to create directory.');
+        }
+
+        upload_file('data', $data_file, true);
+
+        if (isset($_FILES['flags']) && $_FILES['flags']['error'] != UPLOAD_ERR_NO_FILE) {
+            upload_file('flags', $flags_file);
+        }
+
+        redirect('view.php?n=' . $name);
+    } catch (Exception $exception) {
+        @rmdir($dir);
+        $error = $exception->getMessage();
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GM (Geiger-Muller) Tube Database</title>
-    <meta name="keywords" content="gm tube geiger muller database info datasheet radiation radioactive" />
-    <meta name="description" content="GM (Geiger Muller) tube database. Datasheets and information. SBM-20, SBT-9, LND 712, LND 7317 and others." />
+    <title>GMC-300 Online Log Viewer</title>
+    <meta name="keywords" content="gmc 300 geiger muller counter online log viewer" />
+    <meta name="description" content="GMC 300 Geiger Muller Counter Online Log Viewer" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="lib/style.css" />
 </head>
     <body>
-        <h1>GM Tube Database</h1>
-        <p>Site is under construction.</p>
-        <h2>Tools</h2>
-        <ul>
-            <li><a href="/viewer/">GMC-300 Online Log Viewer</a></li>
-            <li><a href="/calc/">GM Tube Conversion Factor Calculator</a></li>
-            <li><a href="/viewer/view.php?n=chernobyl">Radiation levels during two-day trip to Chernobyl Exclusion Zone</a></li>
-        </ul>
-        <h2>Links</h2>
-        <ul>
-            <li><a href="http://www.gqelectronicsllc.com/comersus/store/comersus_viewItem.asp?idProduct=4542">GQ Electronics GMC-300 Geiger Counter</a></li>
-            <li><a href="https://sites.google.com/site/diygeigercounter/">DIYGeigerCounter</a></li>
-            <li><a href="https://github.com/andkom/zxcounter">Alternative software for the DIYGeigerCounter</a></li>
-            <li><a href="https://sites.google.com/site/geigerbot/">Geiger Bot</a></li>
-        </ul>
+        <h1>GMC-300 Geiger Muller Counter Online Log Viewer</h1>
+        <h3>Upload data log:</h3>
+        <?php if ($error): ?>
+        <p class="error"><?php echo htmlspecialchars($error); ?></p>
+        <?php endif; ?>
+        <form action="" method="post" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td>Data file:</td>
+                    <td><input type="file" name="data" /></td>
+                </tr>
+                <tr style="display: none;">
+                    <td>Flags file:</td>
+                    <td><input type="file" name="flags" /> (optional)</td>
+                </tr>
+                <tr>
+                    <td>Data type:</td>
+                    <td>
+                        <label><input type="radio" name="type" value="csv" checked="checked" /> CSV</label>
+                        <label><input type="radio" name="type" value="bin" disabled="disabled" /> BIN (soon)</label>
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <input type="submit" value="Upload" />
+            </p>
+        </form>
     </body>
 </html>
