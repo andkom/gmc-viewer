@@ -146,6 +146,22 @@ button[type="submit"]:active {
     background: #1e40af;
 }
 
+.example-link {
+    text-align: center;
+    font-size: 13px;
+    color: #5a6069;
+    margin-top: 4px;
+}
+
+.example-link a {
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+.example-link a:hover {
+    color: #79b8ff;
+}
+
 /* Chart section */
 #chart-section {
     padding: 20px 24px;
