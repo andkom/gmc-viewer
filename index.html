@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GMC-300 Online Log Viewer</title>
+    <meta name="keywords" content="gmc 300 geiger muller counter online log viewer" />
+    <meta name="description" content="GMC 300 Geiger Muller Counter Online Log Viewer" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="lib/jquery.js" type="text/javascript"></script>
+    <script src="lib/highstock.js" type="text/javascript"></script>
+    <script src="lib/exporting.js" type="text/javascript"></script>
+    <script src="lib/gray.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="lib/style.css" />
+</head>
+<body>
+    <div id="upload-section">
+        <h1>GMC-300 Geiger Muller Counter Online Log Viewer</h1>
+        <h3>Upload data log:</h3>
+        <p id="error" class="error" style="display:none;"></p>
+        <form id="upload-form">
+            <table>
+                <tr>
+                    <td>Data file:</td>
+                    <td><input type="file" id="data-file" accept=".csv" /></td>
+                </tr>
+                <tr>
+                    <td>Flags file:</td>
+                    <td><input type="file" id="flags-file" accept=".csv" /> (optional)</td>
+                </tr>
+            </table>
+            <p>
+                <input type="submit" value="Upload" />
+            </p>
+        </form>
+    </div>
+
+    <div id="chart-section" style="display:none;">
+        <h2>GMC-300 Geiger Muller Counter Online Log Viewer</h2>
+        <p><a href="#" id="reset-link">Upload another file</a></p>
+        <div id="chart" style="height: 600px;"></div>
+        <div class="footer">Version 1.0</div>
+    </div>
+
+    <script src="lib/viewer.js"></script>
+</body>
+</html>
