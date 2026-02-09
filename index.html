@@ -1,40 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>GMC-300 Online Log Viewer</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="keywords" content="gmc 300 geiger muller counter online log viewer" />
     <meta name="description" content="GMC 300 Geiger Muller Counter Online Log Viewer" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <link rel="stylesheet" type="text/css" href="lib/style.css" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 </head>
 <body>
     <div id="upload-section">
-        <h1>GMC-300 Geiger Muller Counter Online Log Viewer</h1>
-        <h3>Upload data log:</h3>
-        <p id="error" class="error" style="display:none;"></p>
-        <form id="upload-form">
-            <table>
-                <tr>
-                    <td>Data file:</td>
-                    <td><input type="file" id="data-file" accept=".csv" /></td>
-                </tr>
-                <tr>
-                    <td>Flags file:</td>
-                    <td><input type="file" id="flags-file" accept=".csv" /> (optional)</td>
-                </tr>
-            </table>
-            <p>
-                <input type="submit" value="Upload" />
-            </p>
-        </form>
+        <div class="card">
+            <h1><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#f6d24b" stroke="#1f1f1b" stroke-width="2"/><path d="M19 9.5 A26 26 0 0 1 45 9.5 L36.5 24.2 A9 9 0 0 0 27.5 24.2 Z" fill="#12100b"/><path d="M19 9.5 A26 26 0 0 1 45 9.5 L36.5 24.2 A9 9 0 0 0 27.5 24.2 Z" fill="#12100b" transform="rotate(120 32 32)"/><path d="M19 9.5 A26 26 0 0 1 45 9.5 L36.5 24.2 A9 9 0 0 0 27.5 24.2 Z" fill="#12100b" transform="rotate(240 32 32)"/><circle cx="32" cy="32" r="6" fill="#12100b"/></svg>GMC-300 Log Viewer</h1>
+            <p class="subtitle">Geiger Muller Counter Online Log Viewer</p>
+            <p class="description">Upload CSV data logs from your <strong>GQ GMC-300 Geiger</strong> counter to visualize radiation measurements over time. View CPM, &micro;Sv/h and mR/h readings with interactive charts, zoom, and pan. Optionally add location flags to mark measurement points.</p>
+            <p id="error" class="error" style="display:none;"></p>
+            <form id="upload-form">
+                <label class="file-field">
+                    <span class="file-label">Data file</span>
+                    <input type="file" id="data-file" accept=".csv" />
+                </label>
+                <label class="file-field">
+                    <span class="file-label">Flags file <span class="optional">(optional)</span></span>
+                    <input type="file" id="flags-file" accept=".csv" />
+                </label>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
     </div>
 
     <div id="chart-section" style="display:none;">
-        <h2>GMC-300 Geiger Muller Counter Online Log Viewer</h2>
-        <p><a href="#" id="reset-link">Upload another file</a></p>
-        <div id="chart" style="height: 600px;"></div>
-        <div class="footer">Version 1.0</div>
+        <header class="chart-header">
+            <h1><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#f6d24b" stroke="#1f1f1b" stroke-width="2"/><path d="M19 9.5 A26 26 0 0 1 45 9.5 L36.5 24.2 A9 9 0 0 0 27.5 24.2 Z" fill="#12100b"/><path d="M19 9.5 A26 26 0 0 1 45 9.5 L36.5 24.2 A9 9 0 0 0 27.5 24.2 Z" fill="#12100b" transform="rotate(120 32 32)"/><path d="M19 9.5 A26 26 0 0 1 45 9.5 L36.5 24.2 A9 9 0 0 0 27.5 24.2 Z" fill="#12100b" transform="rotate(240 32 32)"/><circle cx="32" cy="32" r="6" fill="#12100b"/></svg>GMC-300 Log Viewer</h1>
+            <a href="#" id="reset-link">Upload another file</a>
+        </header>
+        <div id="chart"></div>
     </div>
 
     <script src="lib/viewer.js"></script>
